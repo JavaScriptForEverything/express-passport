@@ -1,0 +1,27 @@
+doctype html
+html(lang="en")
+	head
+		meta(charset="UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		title Login Page
+	body 
+		h2 Login 
+
+		form(method="post") 
+			div
+				input(type="text", name="username" placeholder='username')
+			div
+				input(type="password", name="password" placeholder='password')
+			button(type="submit") Login
+
+			div
+				br
+				a(href="/") 
+					button(type="button") Home
+
+		script.
+			document.querySelector('form').addEventListener('submit', (evt) => {
+				evt.preventDefault()
+
+				evt.target.submit()
+			})
