@@ -1,12 +1,13 @@
 ## Express with express-session and passport (local Strategy)
 
-
+```
 | 		| in express-session: 		        | in passport: 	
 +---------------+--------------------------- 	        +----------------------
 . To add user 	: req.session.user = user 	        | done(null, user) 
 . To Check user : req.session.user        	        | req.user 
 . To remove user: req.session.destryo(err => {...})     | req.logout(err => {...}) 
 
+```
 
 
 passport: 
