@@ -16,7 +16,7 @@ But it works with other passport strategies, in that case `passport` is the cont
 middleware which has other sub-middlewares which is known as `Strategy`.
 
 
-- Step-1:  `authenticate` middleware collect `req.body` which will be available to sub strategy. 
+##### Step-1:  `authenticate` middleware collect `req.body` which will be available to sub strategy. 
 
 ```
 const authenticate = (strategy) => (req, res, next) => {...}
@@ -26,7 +26,7 @@ app.post('/login', passport.authenticate('local', {...}))
 
 
 
-- Step-2:  Now we have req.body, so can configuring strategy into a function and attach that function
+##### Step-2:  Now we have req.body, so can configuring strategy into a function and attach that function
 to app. Bellow an example of LocalStrategy:
 
 ``` /passportConfig.js:
@@ -87,7 +87,7 @@ const app = express()
 
 
 
-- Step-3:  Now we have LocalStrategy ready, we we have to apply to app as a middleware: to app. Bellow an example of LocalStrategy: 
+##### Step-3:  Now we have LocalStrategy ready, we we have to apply to app as a middleware: to app. Bellow an example of LocalStrategy: 
 
 ``` /app.js:	
 app.use(express.urlencoded({ extended: false })) 
@@ -108,7 +108,7 @@ app.use(passport.session())
 ```
 
 
-- Step-4:  Protect any route by creating middleware:
+##### Step-4:  Protect any route by creating middleware:
 
 ``` /controllers/autoController.js:	
 
@@ -133,7 +133,7 @@ app.get('/profile', protect, profileRoute)
 ```
 
 
-- Step-5:  Finally destroy session: 
+##### Step-5:  Finally destroy session: 
 
 
 ``` /app.js
