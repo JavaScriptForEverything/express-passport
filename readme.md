@@ -1,6 +1,12 @@
 ## Express with express-session and passport (local Strategy)
 
 
+``` Terminal:
+
+$ git clone <url>
+$ yarn install
+$ yarn dev
+```
 
 passport: 
 is a middleware same as `express-session` middleware.
