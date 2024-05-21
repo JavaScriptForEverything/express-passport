@@ -1,4 +1,4 @@
-// ./config/passport-config.js
+// used in app.js
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -6,7 +6,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/userModel')
 const bcryptjs = require('bcryptjs')
 
-const authenticateUser = async (username, password, done) => {
+const localAuthenticateUser = async (username, password, done) => {
 	try {
   	const user = await User.findOne({ username: username })
 		if (!user) return done(null, false, { message: 'No user with that username' })
@@ -21,21 +21,25 @@ const authenticateUser = async (username, password, done) => {
 	}
 }
 
-passport.use(new LocalStrategy(authenticateUser))
+exports.passportConfig = () => {
+	// NB: don't have 'local' argument any more: 	Wrong => new LocalStrategy('local', localAuthenticateUser)
+	passport.use(new LocalStrategy(localAuthenticateUser))
 
 
-passport.serializeUser((user, done) => {
-	done(null, user.id)
-});
+	passport.serializeUser((user, done) => {
+		done(null, user.id)
+	});
 
-passport.deserializeUser( async (userId, done) => {
-	try {
-		const user = await User.findById(userId)
-		if(!user) return done(null, false, { message: 'user not find while deserializeUser' })
+	passport.deserializeUser( async (userId, done) => {
+		try {
+			const user = await User.findById(userId)
+			if(!user) return done(null, false, { message: 'user not find while deserializeUser' })
 
-		done(null, user)
+			done(null, user)
 
-	} catch (err) {
-		done(err)
-	}
-})
+		} catch (err) {
+			done(err)
+		}
+	})
+}
+
