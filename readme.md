@@ -51,14 +51,21 @@ app.post('/login', passport.authenticate('local', {
 ```
 
 ```
-// Method-2: pass self-middleware then passport middleware
-app.post('/login', (req, res, next) => {
-	console.log('POST /login :req.body', req.body)
-	next()
-}, passport.authenticate('local', {
-	successRedirect: '/',
-	failureRedirect: '/login',
-}))
+// Method-2: handle failed, instead of auto-redirect
+app.post('/login', 
+	passport.authenticate('local', {
+		successRedirect: '/',
+		// failureRedirect: '/login',
+		failWithError: true
+	}), 
+	(err, req, res, next) => {
+
+		console.log('handle error')
+
+		res.json({ status: 'failed', body: req.body })
+		// res.send('login') // /views/login.pug
+	}
+)
 ```
 
 ```

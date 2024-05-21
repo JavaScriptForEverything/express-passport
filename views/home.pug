@@ -3,10 +3,8 @@ html(lang="en")
 	head
 		meta(charset="UTF-8")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
-		title Home Page
+		title #{title}
 	body 
-
-		h2 Home page
 
 		br
 		div
@@ -17,7 +15,28 @@ html(lang="en")
 		br
 		br
 		div
-			a(href="/?destroy=true") Logout by same page route 
-		div
-			a(href="/logout") Logout by /logout route
+			a(href="/logout") Logout by POST /logout route
+			//- button(name="logout") Logout by POST /logout route
 		
+
+		div
+			if user
+				pre
+					#{JSON.stringify(user, null, 2)}
+		
+		//- script.
+			const button = document.querySelector('[name=logout]')
+			button.addEventListener('click', async () => {
+				try {
+
+					const res = await fetch('/logout', { method: 'POST' })
+					if(!res.ok) throw new Error('logout filed')
+
+					const data = await res.json()
+					console.log(data)
+
+				} catch (err) {
+					alert('Logout failed, see in console: ', err.message)
+					console.log(err)
+				}
+			})

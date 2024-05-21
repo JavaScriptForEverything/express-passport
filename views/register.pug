@@ -6,19 +6,22 @@ html(lang="en")
 		title #{title}
 	body 
 
-		form(method='POST' action='/login')
+		form(method='POST' action='/register')
 			label Username 
 			br
 			input(type='text' name='username') 
 			br
-
-			label Password
+			label Password 
 			br
 			input(type='password' name='password') 
 			br
-			button() Login
+			label Confirm Password 
+			br
+			input(type='password' name='confirm-password') 
+			br
+			button() Register
 
 			br
 			p 
-				span Don't have an account ? 
-				a(href='/register') Register
+				span If already registered,please 
+				a(href='/login') Login
