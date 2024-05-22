@@ -8,6 +8,8 @@ const pageRouter = require('./routes/pageRoutes')
 const userRouter = require('./routes/userRoutes')
 const { passportConfig } = require('./controllers/passportConfig')
 
+const { NODE_ENV, DB_LOCAL_URL, DB_REMOTE_URL, SESSION_SECRET } = process.env || {}
+const DATABASE_URL = NODE_ENV === 'production' ? DB_REMOTE_URL : DB_LOCAL_URL
 
 const app = express()
 
@@ -17,10 +19,10 @@ app.set('view engine', 'pug')
 
 // Step-1: set session
 app.use(session({
- secret: 'your-secret-key',
+ secret: SESSION_SECRET,
  resave: false,
  saveUninitialized: false,
- store: MongoStore.create({ mongoUrl: process.env.DB_LOCAL_URL })
+ store: MongoStore.create({ mongoUrl: DATABASE_URL })
 }))
 
 
@@ -33,8 +35,8 @@ app.use(passport.session())
 // Step-3: Configure passport strategy + serializeUser + deserializeUser
 passportConfig()
 
-
-// Step-4: app passport.authenticate('local', {...}) 	on 	`POST /login` route
+// Step-4: passport.use(new LocalStrategy(...))
+// Step-5: app passport.authenticate('local', {...}) 	on 	`POST /login` route
 
 app.use('/', pageRouter)
 app.use('/api/users', userRouter)

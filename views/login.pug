@@ -7,17 +7,19 @@ html(lang="en")
 	body 
 
 		form(method='POST' action='/login')
-			label Username 
+			label Email 
 			br
-			input(type='text' name='username') 
+			input(type='email' name='email' placeholder='abc@gmail.com') 
 			br
-
-			label Password
+			label Password 
 			br
-			input(type='password' name='password') 
+			input(type='password' name='password' placeholder='********') 
 			br
 			button() Login
 
+			br
+			br
+			a(href='/auth/google') Login By Google
 			br
 			p 
 				span Don't have an account ? 

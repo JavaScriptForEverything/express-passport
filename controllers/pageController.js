@@ -11,22 +11,27 @@ exports.handleRegister = async (req, res) => {
 	console.log(req.body)
 
 	try{
-			const findUser = await User.findOne({ username:req.body.username })
-			console.log(findUser)
-			if (findUser) return res.render('register', { title: 'Register Page' });
+		let { email, password } = req.body
 
-			// res.send( '<h1>Username already exists.</h1><p>Please <a href="/register">register</a> with another username</p>');
+		const findUser = await User.findOne({ email })
+		console.log(findUser)
+		if (findUser) return res.render('register', { title: 'Register Page' });
 
-			let username = req.body.username 
-			let password = req.body.password 
-					password = await bcryptjs.hash(password, 10) 
+		password = await bcryptjs.hash(password, 10) 
 
-			const user = User.create({ username, password })
-			res.redirect('/login');
+		const user = User.create({ email, password })
+		if(!user) return res.status(400).json({ 
+			status: 'error', 
+			message: 'Saving to database failed' 
+		})
+		res.redirect('/login');
 
 	}catch(err){
 		console.log(err)
-		return res.status(500).json('Internal Server Error')
+		return res.status(400).json({ 
+			status: 'failed', 
+			message: 'Internal Server Error' 
+		})
 	}
 }
 
@@ -35,19 +40,22 @@ exports.login = (req, res) => {
   res.render('login', { title: 'Login Page' })
 }
 
-// // POST /login
+// POST /login
+// Method-1: 
 // exports.handleLogin = (req, res) => {
 // 	res.redirect('/')
 // }
 
+// POST /login
 exports.handleLogin = (req, res, next) => {
+	console.log(req.body)
 	
 	passport.authenticate('local', (err, user, info) => {
 		if(err) return next(err)
 
 		if(!user) return res.json({
 			status: 'error',
-			message: info.message
+			message: info.message || 'authentication failed'
 		})
 
 		req.login(user, (logError) => {
@@ -89,3 +97,6 @@ exports.error = (req, res, next) => {
 	res.render('error', { title: 'Error Page' })
 }
 
+
+// // => GET /auth/google 	: handled in pageRoutes
+// exports.googleLogin = (req, res, next) => { }

@@ -17,8 +17,13 @@ const router = Router()
 		// )
 		.post('/login', pageController.handleLogin)
 		.get('/logout', pageController.logout)
-
-		// .post('/error', pageController.error)
 		.get('/error', pageController.error)
+
+		.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
+		.get('/auth/google/callback', passport.authenticate('google', { 
+			successRedirect: '/',
+			failureRedirect: '/login'
+		}))
+
 
 module.exports = router
