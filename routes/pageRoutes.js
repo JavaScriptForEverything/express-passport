@@ -11,15 +11,14 @@ const router = Router()
 		.post('/register', pageController.handleRegister)
 
 		.get('/login', pageController.login)
-		.post('/login', 
-			passport.authenticate('local', { 
-				failureRedirect: '/login' 
-				// failureRedirect: '/error' 
-			}),
-			pageController.handleLogin
-		)
+		// .post('/login', 
+		// 	passport.authenticate('local', { failureRedirect: '/error' }),
+		// 	pageController.handleLogin
+		// )
+		.post('/login', pageController.handleLogin)
 		.get('/logout', pageController.logout)
 
-		.post('/error', pageController.error)
+		// .post('/error', pageController.error)
+		.get('/error', pageController.error)
 
 module.exports = router

@@ -6,9 +6,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/userModel')
 const bcryptjs = require('bcryptjs')
 
-const localAuthenticateUser = async (username, password, done) => {
+const localAuthenticateUser = async (username , password, done) => {
 	try {
-  	const user = await User.findOne({ username: username })
+  	const user = await User.findOne({ username })
 		if (!user) return done(null, false, { message: 'No user with that username' })
 
 		if(bcryptjs.compareSync(password, user.password))

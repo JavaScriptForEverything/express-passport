@@ -22,3 +22,20 @@ html(lang="en")
 			p 
 				span Don't have an account ? 
 				a(href='/register') Register
+
+		//- script.
+			const form = document.querySelector('form')
+			form.addEventListener('submit', async (evt) => {
+				evt.preventDefault()
+
+				const formData = new FormData(evt.target)
+				const fields = Object.fromEntries(formData)
+				console.log(fields)
+
+				const res = await fetch('/login', { method: 'POST' })
+				console.log(res)
+
+				//- if(res.redirected) 
+				location.href = '/'
+
+			})

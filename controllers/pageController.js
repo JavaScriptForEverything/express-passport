@@ -35,16 +35,32 @@ exports.login = (req, res) => {
   res.render('login', { title: 'Login Page' })
 }
 
-// POST 	/login
-exports.handleLogin = (req, res) => {
-	// console.log('body', req.body)
-	// console.log('user', req.user)
+// // POST /login
+// exports.handleLogin = (req, res) => {
+// 	res.redirect('/')
+// }
 
-	res.redirect('/')
-	// res.status(200).json({
-	// 	status: 'success',
-	// 	data: req.user
-	// })
+exports.handleLogin = (req, res, next) => {
+	
+	passport.authenticate('local', (err, user, info) => {
+		if(err) return next(err)
+
+		if(!user) return res.json({
+			status: 'error',
+			message: info.message
+		})
+
+		req.login(user, (logError) => {
+			if(logError) return next(logError)
+
+			res.redirect('/')
+			// res.json({
+			// 	status: 'success',
+			// 	message: 'authentication success'
+			// })
+		})
+	})(req, res, next)
+
 }
 
 
